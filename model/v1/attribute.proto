@@ -1,0 +1,176 @@
+syntax = "proto3";
+
+option go_package = "github.com/Yostardev/cmdb-sdk/model/v1;model";
+
+package model;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+import "cmdb-sdk/general/paginate.proto";
+import "cmdb-sdk/general/request_id.proto";
+import "cmdb-sdk/general/primary_key.proto";
+
+service AttributeService {
+  rpc All (AttributeAllRequest) returns (AttributeAllResponse) {}
+  rpc List (AttributeListRequest) returns (AttributeListResponse) {}
+  rpc Get (AttributeGetRequest) returns (AttributeResponse) {}
+  rpc Create (AttributeCreateRequest) returns (google.protobuf.Empty) {}
+  rpc Update (AttributeUpdateRequest) returns (google.protobuf.Empty) {}
+  rpc Delete (AttributeDeleteRequest) returns (google.protobuf.Empty) {}
+}
+
+message AttributeAllSearchOption{
+  // @gotags: json:"model_id" form:"model_id" validate:"required" binding:"required"
+  int64 ModelID = 1;
+}
+
+message AttributeAllRequest {
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 1;
+  // @gotags: validate:"required"
+  AttributeAllSearchOption Option = 2;
+}
+
+message AttributeListSearchOption{
+  // @gotags: json:"name" form:"name"
+  string Name = 1;
+  // @gotags: json:"cn_name" form:"cn_name"
+  string CnName = 2;
+  // @gotags: json:"model_id" form:"model_id" validate:"required" binding:"required"
+  int64 ModelID = 3;
+}
+
+message AttributeListRequest{
+  // @gotags: validate:"required"
+  general.PaginateQuery PaginateQuery = 1;
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 2;
+  // @gotags: validate:"required"
+  AttributeListSearchOption Option = 3;
+}
+
+message AttributeGetRequest{
+  // @gotags: validate:"required"
+  general.PrimaryKey PrimaryKey = 1;
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 2;
+}
+
+message AttributeCreateOption{
+  // @gotags: json:"name" validate:"required" binding:"required,attribute"
+  string Name = 1;
+  // @gotags: json:"cn_name" validate:"required" binding:"required"
+  string CnName = 2;
+  // @gotags: json:"type" validate:"required" binding:"required"
+  string Type = 3;
+  // @gotags: json:"model_id" validate:"required" binding:"required"
+  int64 ModelID = 4;
+  // @gotags: json:"is_unique"
+  bool IsUnique = 5;
+  // @gotags: json:"show_in_table"
+  bool ShowInTable = 6;
+  // @gotags: json:"weight"
+  int32 Weight = 7;
+  // @gotags: json:"allow_update"
+  bool AllowUpdate = 8;
+  // @gotags: json:"group" validate:"required" binding:"required"
+  string Group = 9;
+  // @gotags: json:"is_require"
+  bool IsRequire = 10;
+  // @gotags: json:"allow_search"
+  bool AllowSearch = 11;
+  // @gotags: json:"search_type"
+  string SearchType = 12;
+}
+
+message AttributeCreateRequest{
+  // @gotags: validate:"required"
+  AttributeCreateOption Option = 1;
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 2;
+}
+
+message AttributeUpdateOption{
+  // @gotags: json:"name" validate:"required" binding:"required,attribute"
+  string Name = 1;
+  // @gotags: json:"cn_name" validate:"required" binding:"required"
+  string CnName = 2;
+  // @gotags: json:"type" validate:"required" binding:"required"
+  string Type = 3;
+  // @gotags: json:"is_unique"
+  bool IsUnique = 4;
+  // @gotags: json:"show_in_table"
+  bool ShowInTable = 5;
+  // @gotags: json:"weight"
+  int32 Weight = 6;
+  // @gotags: json:"allow_update"
+  bool AllowUpdate = 7;
+  // @gotags: json:"group" validate:"required" binding:"required"
+  string Group = 8;
+  // @gotags: json:"is_require"
+  bool IsRequire = 9;
+  // @gotags: json:"allow_search"
+  bool AllowSearch = 10;
+  // @gotags: json:"search_type"
+  string SearchType = 11;
+}
+
+message AttributeUpdateRequest{
+  // @gotags: validate:"required"
+  general.PrimaryKey PrimaryKey = 1;
+  // @gotags: validate:"required"
+  AttributeUpdateOption Option = 2;
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 3;
+}
+
+message AttributeDeleteRequest{
+  // @gotags: validate:"required"
+  general.PrimaryKey PrimaryKey = 1;
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 2;
+}
+
+message AttributeAllResponse {
+  // @gotags: json:"items"
+  repeated AttributeResponse Items = 1;
+}
+
+message AttributeListResponse {
+  // @gotags: json:"paginate"
+  general.PaginateInfo Paginate = 1;
+  // @gotags: json:"items"
+  repeated AttributeResponse Items = 2;
+}
+
+message AttributeResponse {
+  // @gotags: json:"id"
+  int64 ID = 1;
+  // @gotags: json:"created_at"
+  google.protobuf.Timestamp CreatedAt = 2;
+  // @gotags: json:"updated_at"
+  google.protobuf.Timestamp UpdatedAt = 3;
+  // @gotags: json:"name"
+  string Name = 4;
+  // @gotags: json:"cn_name"
+  string CnName = 5;
+  // @gotags: json:"type"
+  string Type = 6;
+  // @gotags: json:"is_unique"
+  bool IsUnique = 7;
+  // @gotags: json:"show_in_table"
+  bool ShowInTable = 8;
+  // @gotags: json:"weight"
+  int32 Weight = 9;
+  // @gotags: json:"allow_update"
+  bool AllowUpdate = 10;
+  // @gotags: json:"group"
+  string Group = 11;
+  // @gotags: json:"is_require"
+  bool IsRequire = 12;
+  // @gotags: json:"allow_search"
+  bool AllowSearch = 13;
+  // @gotags: json:"search_type"
+  string SearchType = 14;
+}

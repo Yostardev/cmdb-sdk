@@ -1,0 +1,127 @@
+syntax = "proto3";
+
+option go_package = "github.com/Yostardev/cmdb-sdk/auth/v1;auth";
+
+package auth;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+import "cmdb-sdk/general/paginate.proto";
+import "cmdb-sdk/general/request_id.proto";
+import "cmdb-sdk/general/primary_key.proto";
+import "auth/v1/common.proto";
+
+service GroupService {
+  rpc All (GroupAllRequest) returns (GroupAllResponse) {}
+  rpc List (GroupListRequest) returns (GroupListResponse) {}
+  rpc Get (GroupGetRequest) returns (GroupResponse) {}
+  rpc Create (GroupCreateRequest) returns (google.protobuf.Empty) {}
+  rpc Update (GroupUpdateRequest) returns (google.protobuf.Empty) {}
+  rpc Delete (GroupDeleteRequest) returns (google.protobuf.Empty) {}
+  rpc UpdateGroupRole (UpdateGroupRoleRequest) returns (google.protobuf.Empty) {}
+  rpc GetGroupUserIDs (GroupGetRequest) returns (GroupUserIDsResponse) {}
+}
+
+message GroupAllRequest {
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 1;
+}
+
+message GroupAllResponse {
+  // @gotags: json:"items"
+  repeated GroupResponse Items = 1;
+}
+
+message GroupListResponse {
+  // @gotags: json:"paginate"
+  general.PaginateInfo Paginate = 1;
+  // @gotags: json:"items"
+  repeated GroupResponse Items = 2;
+}
+
+message GroupResponse {
+  // @gotags: json:"id"
+  int64 ID = 1;
+  // @gotags: json:"created_at"
+  google.protobuf.Timestamp CreatedAt = 2;
+  // @gotags: json:"updated_at"
+  google.protobuf.Timestamp UpdatedAt = 3;
+  // @gotags: json:"name"
+  string Name = 4;
+  // @gotags: json:"description"
+  string Description = 5;
+  // @gotags: json:"role_ids"
+  repeated int64 RoleIDs = 6;
+  // @gotags: json:"roles"
+  repeated GroupRoleResponse Roles = 7;
+}
+
+message GroupOption{
+  // @gotags: json:"name" validate:"required" binding:"required"
+  string Name = 1;
+  // @gotags: json:"description"
+  string Description = 2;
+}
+
+message GroupGetRequest{
+  // @gotags: validate:"required"
+  general.PrimaryKey PrimaryKey = 1;
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 2;
+}
+
+message GroupListSearchOption{
+  // @gotags: json:"name" form:"name"
+  string Name = 1;
+}
+
+message GroupListRequest{
+  // @gotags: validate:"required"
+  general.PaginateQuery PaginateQuery = 1;
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 2;
+  // @gotags: validate:"required"
+  GroupListSearchOption Option = 3;
+}
+
+message GroupCreateRequest{
+  // @gotags: validate:"required"
+  GroupOption Option = 1;
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 2;
+}
+
+message GroupUpdateRequest{
+  // @gotags: validate:"required"
+  general.PrimaryKey PrimaryKey = 1;
+  // @gotags: validate:"required"
+  GroupOption Option = 2;
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 3;
+}
+
+message GroupDeleteRequest{
+  // @gotags: validate:"required"
+  general.PrimaryKey PrimaryKey = 1;
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 2;
+}
+
+message GroupRoleOption {
+  // @gotags: json:"group_id"
+  int64 GroupID = 1;
+  // @gotags: json:"role_id_list"
+  repeated int64 RoleIDList = 2;
+}
+
+message UpdateGroupRoleRequest {
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 1;
+  // @gotags: validate:"required"
+  GroupRoleOption  Option = 2;
+}
+
+message GroupUserIDsResponse {
+  repeated int64 IDs = 1;
+}

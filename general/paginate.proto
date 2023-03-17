@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option go_package = "github.com/Yostardev/cmdb-sdk/general";
+
+package general;
+
+message PaginateQuery {
+  int64 Page = 1; // 页码
+  int64 PageSize = 2; // 每页大小
+}
+
+message PaginateInfo {
+  // @gotags: json:"page"
+  int64 Page = 1; // 页码
+  // @gotags: json:"page_size"
+  int64 PageSize = 2;// 每页大小
+  // @gotags: json:"total"
+  int64 Total = 3; // 数据总数
+} // 分页信息

@@ -1,0 +1,110 @@
+syntax = "proto3";
+
+option go_package = "github.com/Yostardev/cmdb-sdk/auth/v1;auth";
+
+package auth;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+import "cmdb-sdk/general/paginate.proto";
+import "cmdb-sdk/general/request_id.proto";
+import "cmdb-sdk/general/primary_key.proto";
+
+service PermissionService {
+  rpc All (PermissionAllRequest) returns (PermissionAllResponse) {}
+  rpc List (PermissionListRequest) returns (PermissionListResponse) {}
+  rpc Get (PermissionGetRequest) returns (PermissionResponse) {}
+  rpc Create (PermissionCreateRequest) returns (google.protobuf.Empty) {}
+  rpc Update (PermissionUpdateRequest) returns (google.protobuf.Empty) {}
+  rpc Delete (PermissionDeleteRequest) returns (google.protobuf.Empty) {}
+}
+
+message PermissionAllRequest {
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 1;
+}
+
+message PermissionAllResponse {
+  // @gotags: json:"items"
+  repeated PermissionResponse Items = 1;
+}
+
+message PermissionListResponse {
+  // @gotags: json:"paginate"
+  general.PaginateInfo Paginate = 1;
+  // @gotags: json:"items"
+  repeated PermissionResponse Items = 2;
+}
+
+message PermissionResponse {
+  // @gotags: json:"id"
+  int64 ID = 1;
+  // @gotags: json:"created_at"
+  google.protobuf.Timestamp CreatedAt = 2;
+  // @gotags: json:"updated_at"
+  google.protobuf.Timestamp UpdatedAt = 3;
+  // @gotags: json:"name"
+  string Name = 4;
+  // @gotags: json:"obj"
+  string Obj = 5;
+  // @gotags: json:"act"
+  string Act = 6;
+  // @gotags: json:"description"
+  string Description = 7;
+}
+
+message PermissionOption{
+  // @gotags: json:"name" validate:"required" binding:"required"
+  string Name = 1;
+  // @gotags: json:"obj" validate:"required" binding:"required"
+  string Obj = 2;
+  // @gotags: json:"act" validate:"required" binding:"required"
+  string Act = 3;
+  // @gotags: json:"description"
+  string Description = 4;
+}
+
+message PermissionGetRequest{
+  // @gotags: validate:"required"
+  general.PrimaryKey PrimaryKey = 1;
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 2;
+}
+
+message PermissionListSearchOption{
+  // @gotags: json:"name" form:"name"
+  string Name = 1;
+}
+
+message PermissionListRequest{
+  // @gotags: validate:"required"
+  general.PaginateQuery PaginateQuery = 1;
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 2;
+  // @gotags: validate:"required"
+  PermissionListSearchOption Option = 3;
+}
+
+message PermissionCreateRequest{
+  // @gotags: validate:"required"
+  PermissionOption Option = 1;
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 2;
+}
+
+message PermissionUpdateRequest{
+  // @gotags: validate:"required"
+  general.PrimaryKey PrimaryKey = 1;
+  // @gotags: validate:"required"
+  PermissionOption Option = 2;
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 3;
+}
+
+message PermissionDeleteRequest{
+  // @gotags: validate:"required"
+  general.PrimaryKey PrimaryKey = 1;
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 2;
+}

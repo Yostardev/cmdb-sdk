@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+option go_package = "github.com/Yostardev/cmdb-sdk/general";
+
+package general;
+
+message RequestID {
+  string ID = 1; // 请求ID
+}

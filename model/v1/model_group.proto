@@ -1,0 +1,106 @@
+syntax = "proto3";
+
+option go_package = "github.com/Yostardev/cmdb-sdk/model/v1;model";
+
+package model;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+import "cmdb-sdk/general/paginate.proto";
+import "cmdb-sdk/general/request_id.proto";
+import "cmdb-sdk/general/primary_key.proto";
+import "model/v1/model.proto";
+
+service ModelGroupService {
+  rpc All (ModelGroupAllRequest) returns (ModelGroupAllResponse) {}
+  rpc List (ModelGroupListRequest) returns (ModelGroupListResponse) {}
+  rpc Get (ModelGroupGetRequest) returns (ModelGroupResponse) {}
+  rpc Create (ModelGroupCreateRequest) returns (google.protobuf.Empty) {}
+  rpc Update (ModelGroupUpdateRequest) returns (google.protobuf.Empty) {}
+  rpc Delete (ModelGroupDeleteRequest) returns (google.protobuf.Empty) {}
+}
+
+message ModelGroupAllRequest {
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 1;
+}
+
+message ModelGroupListSearchOption{
+  // @gotags: json:"name" form:"name"
+  string Name = 1;
+}
+
+message ModelGroupListRequest{
+  // @gotags: validate:"required"
+  general.PaginateQuery PaginateQuery = 1;
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 2;
+  // @gotags: validate:"required"
+  ModelGroupListSearchOption Option = 3;
+}
+
+message ModelGroupGetRequest{
+  // @gotags: validate:"required"
+  general.PrimaryKey PrimaryKey = 1;
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 2;
+}
+
+message ModelGroupCreateOption{
+  // @gotags: json:"name" validate:"required" binding:"required"
+  string Name = 1;
+}
+
+message ModelGroupCreateRequest{
+  // @gotags: validate:"required"
+  ModelGroupCreateOption Option = 1;
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 2;
+}
+
+message ModelGroupUpdateOption{
+  // @gotags: json:"name" validate:"required" binding:"required"
+  string Name = 1;
+}
+
+message ModelGroupUpdateRequest{
+  // @gotags: validate:"required"
+  general.PrimaryKey PrimaryKey = 1;
+  // @gotags: validate:"required"
+  ModelGroupUpdateOption Option = 2;
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 3;
+}
+
+message ModelGroupDeleteRequest{
+  // @gotags: validate:"required"
+  general.PrimaryKey PrimaryKey = 1;
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 2;
+}
+
+message ModelGroupAllResponse {
+  // @gotags: json:"items"
+  repeated ModelGroupResponse Items = 1;
+}
+
+message ModelGroupListResponse {
+  // @gotags: json:"paginate"
+  general.PaginateInfo Paginate = 1;
+  // @gotags: json:"items"
+  repeated ModelGroupResponse Items = 2;
+}
+
+message ModelGroupResponse {
+  // @gotags: json:"id"
+  int64 ID = 1;
+  // @gotags: json:"created_at"
+  google.protobuf.Timestamp CreatedAt = 2;
+  // @gotags: json:"updated_at"
+  google.protobuf.Timestamp UpdatedAt = 3;
+  // @gotags: json:"name"
+  string Name = 4;
+  // @gotags: json:"models"
+  repeated ModelResponse Models = 6;
+}

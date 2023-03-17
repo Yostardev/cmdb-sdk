@@ -1,0 +1,229 @@
+syntax = "proto3";
+
+option go_package = "github.com/Yostardev/cmdb-sdk/data/v1;data";
+
+package data;
+
+import "google/protobuf/empty.proto";
+
+import "cmdb-sdk/general/request_id.proto";
+import "cmdb-sdk/general/paginate.proto";
+
+service DataService {
+  rpc CreateCollection (CollectionRequest) returns (google.protobuf.Empty) {}
+  rpc DeleteCollection (CollectionRequest) returns (google.protobuf.Empty) {}
+  rpc CreateUniqueIndex (UniqueIndexRequest) returns (google.protobuf.Empty) {}
+  rpc DeleteUniqueIndex (UniqueIndexRequest) returns (google.protobuf.Empty) {}
+  rpc ListDocument (ListDocumentRequest) returns (ListDocumentResponse) {}
+  rpc AllDocument (AllDocumentRequest) returns (DocumentsResponse) {}
+  rpc GetDocument (GetDocumentRequest) returns (GetDocumentResponse) {}
+  rpc InsertDocument (InsertDocumentRequest) returns (DocumentResponse) {}
+  rpc UpdateDocument (UpdateDocumentRequest) returns (DocumentResponse) {}
+  rpc DeleteDocument (DeleteDocumentRequest) returns (google.protobuf.Empty) {}
+  rpc GetTreeNodes (GetTreeNodesRequest) returns (GetTreeNodesResponse) {}
+  rpc GetResourceCount (GetResourceCountRequest) returns (ResourceCountResponse) {}
+  rpc Distinct (DistinctRequest) returns (DistinctResponse) {}
+  rpc Relation (RelationRequest) returns (google.protobuf.Empty) {}
+}
+
+message AllDocumentOption{
+  string CollectionName = 1;
+  bytes Filter = 2;
+}
+
+message AllDocumentRequest{
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 1;
+  // @gotags: validate:"required"
+  AllDocumentOption Option = 2;
+}
+
+message RelationOption{
+  // @gotags: json:"action" validate:"required" binding:"required"
+  string Action = 1;
+  // @gotags: json:"relation_id" validate:"required" binding:"required"
+  int64 relationID = 2;
+  // @gotags: json:"resource_id" validate:"required" binding:"required"
+  string resourceID = 3;
+  // @gotags: json:"relation_resource_ids" validate:"required" binding:"required"
+  repeated string relationResourceIDs = 4;
+}
+
+message RelationRequest{
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 1;
+  // @gotags: validate:"required"
+  RelationOption Option = 2;
+}
+
+message DistinctOption{
+  // @gotags: validate:"required"
+  string CollectionName = 1;
+  // @gotags: validate:"required"
+  string FieldName = 2;
+}
+
+message DistinctRequest{
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 1;
+  // @gotags: validate:"required"
+  DistinctOption Option = 2;
+}
+
+message DistinctResponse{
+  bytes Data = 1;
+}
+
+message GetResourceCountOption{
+  // @gotags: json:"filter"
+  bytes Filter = 1;
+}
+
+message GetResourceCountRequest{
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 1;
+  // @gotags: validate:"required"
+  GetResourceCountOption Option = 2;
+}
+
+message ResourceCount {
+  // @gotags: json:"model_id"
+  int64 ModelID = 1;
+  // @gotags: json:"name"
+  string Name = 2;
+  // @gotags: json:"cn_name"
+  string CnName = 3;
+  // @gotags: json:"icon"
+  string Icon = 4;
+  // @gotags: json:"count"
+  int64 Count = 5;
+}
+
+
+message ResourceCountResponse {
+  repeated ResourceCount Data = 1;
+}
+
+message GetTreeNodesOption{
+  // @gotags: json:"tag"
+  string Tag = 1;
+  // @gotags: json:"filter"
+  bytes Filter = 2;
+}
+
+message GetTreeNodesRequest{
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 1;
+  // @gotags: validate:"required"
+  GetTreeNodesOption Option = 2;
+}
+
+message GetTreeNodesResponse{
+  bytes Data = 1;
+}
+
+message CollectionRequestOption{
+  // @gotags: validate:"required"
+  string name = 1;
+}
+
+message CollectionRequest{
+  // @gotags: validate:"required"
+  CollectionRequestOption Option = 1;
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 2;
+}
+
+message UniqueIndexRequestOption{
+  // @gotags: validate:"required"
+  string CollectionName = 1;
+  // @gotags: validate:"required"
+  string FieldName = 2;
+}
+
+message UniqueIndexRequest{
+  // @gotags: validate:"required"
+  UniqueIndexRequestOption Option = 1;
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 2;
+}
+
+message ListDocumentOption{
+  string CollectionName = 1;
+  bytes Filter = 2;
+}
+
+message ListDocumentRequest{
+  // @gotags: validate:"required"
+  general.PaginateQuery PaginateQuery = 1;
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 2;
+  // @gotags: validate:"required"
+  ListDocumentOption Option = 3;
+}
+
+message GetDocumentOption{
+  string CollectionName = 1;
+  string ID = 2;
+}
+
+message GetDocumentRequest{
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 1;
+  // @gotags: validate:"required"
+  GetDocumentOption Option = 2;
+}
+
+message InsertDocumentOption{
+  string CollectionName = 1;
+  bytes Data = 2;
+}
+
+message InsertDocumentRequest{
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 1;
+  // @gotags: validate:"required"
+  InsertDocumentOption Option = 2;
+}
+
+message UpdateDocumentOption{
+  string CollectionName = 1;
+  string ID = 2;
+  bytes Data = 3;
+}
+
+message UpdateDocumentRequest{
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 1;
+  // @gotags: validate:"required"
+  UpdateDocumentOption Option = 2;
+}
+
+message DeleteDocumentOption{
+  string CollectionName = 1;
+  string ID = 2;
+}
+
+message DeleteDocumentRequest{
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 1;
+  // @gotags: validate:"required"
+  DeleteDocumentOption Option = 2;
+}
+
+message GetDocumentResponse{
+  bytes Data = 1;
+}
+
+message DocumentResponse{
+  bytes Data = 1;
+}
+
+message DocumentsResponse{
+  bytes Data = 1;
+}
+
+message ListDocumentResponse{
+  general.PaginateInfo Paginate = 1;
+  bytes Data = 2;
+}

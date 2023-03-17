@@ -1,0 +1,122 @@
+syntax = "proto3";
+
+option go_package = "github.com/Yostardev/cmdb-sdk/auth/v1;auth";
+
+package auth;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+import "cmdb-sdk/general/paginate.proto";
+import "cmdb-sdk/general/request_id.proto";
+import "cmdb-sdk/general/primary_key.proto";
+import "auth/v1/common.proto";
+
+service RoleService {
+  rpc All (RoleAllRequest) returns (RoleAllResponse) {}
+  rpc List (RoleListRequest) returns (RoleListResponse) {}
+  rpc Get (RoleGetRequest) returns (RoleResponse) {}
+  rpc Create (RoleCreateRequest) returns (google.protobuf.Empty) {}
+  rpc Update (RoleUpdateRequest) returns (google.protobuf.Empty) {}
+  rpc Delete (RoleDeleteRequest) returns (google.protobuf.Empty) {}
+  rpc UpdateRolePermissions (UpdateRolePermissionRequest) returns (google.protobuf.Empty) {}
+}
+
+message RoleAllRequest {
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 1;
+}
+
+message RoleAllResponse {
+  // @gotags: json:"items"
+  repeated RoleResponse Items = 1;
+}
+
+message RoleListResponse {
+  // @gotags: json:"paginate"
+  general.PaginateInfo Paginate = 1;
+  // @gotags: json:"items"
+  repeated RoleResponse Items = 2;
+}
+
+message RoleResponse {
+  // @gotags: json:"id"
+  int64 ID = 1;
+  // @gotags: json:"created_at"
+  google.protobuf.Timestamp CreatedAt = 2;
+  // @gotags: json:"updated_at"
+  google.protobuf.Timestamp UpdatedAt = 3;
+  // @gotags: json:"name"
+  string Name = 4;
+  // @gotags: json:"description"
+  string Description = 5;
+  // @gotags: json:"permission_ids"
+  repeated int64 PermissionIDs = 6;
+  // @gotags: json:"permissions"
+  repeated RolePermissionResponse Permissions = 7;
+}
+
+message RoleOption{
+  // @gotags: json:"name" validate:"required" binding:"required"
+  string Name = 1;
+  // @gotags: json:"description"
+  string Description = 2;
+}
+
+message RoleGetRequest{
+  // @gotags: validate:"required"
+  general.PrimaryKey PrimaryKey = 1;
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 2;
+}
+
+message RoleListSearchOption{
+  // @gotags: json:"name" form:"name"
+  string Name = 1;
+}
+
+message RoleListRequest{
+  // @gotags: validate:"required"
+  general.PaginateQuery PaginateQuery = 1;
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 2;
+  // @gotags: validate:"required"
+  RoleListSearchOption SearchRequest = 3;
+}
+
+message RoleCreateRequest{
+  // @gotags: validate:"required"
+  RoleOption Option = 1;
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 2;
+}
+
+message RoleUpdateRequest{
+  // @gotags: validate:"required"
+  general.PrimaryKey PrimaryKey = 1;
+  // @gotags: validate:"required"
+  RoleOption Option = 2;
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 3;
+}
+
+message RoleDeleteRequest{
+  // @gotags: validate:"required"
+  general.PrimaryKey PrimaryKey = 1;
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 2;
+}
+
+message RolePermissionOption {
+  // @gotags: json:"role_id"
+  int64 RoleID = 1;
+  // @gotags: json:"permission_id_list"
+  repeated int64 PermissionIDList = 2;
+}
+
+message UpdateRolePermissionRequest {
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 1;
+  // @gotags: validate:"required"
+  RolePermissionOption  Option = 2;
+}

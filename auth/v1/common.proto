@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+option go_package = "github.com/Yostardev/cmdb-sdk/auth/v1;auth";
+
+package auth;
+
+message UserGroupResponse {
+  // @gotags: json:"id"
+  int64 ID = 1;
+  // @gotags: json:"name"
+  string Name = 2;
+  // @gotags: json:"description"
+  string Description = 3;
+}
+
+message GroupRoleResponse {
+  // @gotags: json:"id"
+  int64 ID = 1;
+  // @gotags: json:"name"
+  string Name = 2;
+  // @gotags: json:"description"
+  string Description = 3;
+}
+
+message RolePermissionResponse {
+  // @gotags: json:"id"
+  int64 ID = 1;
+  // @gotags: json:"name"
+  string Name = 2;
+  // @gotags: json:"obj"
+  string Obj = 3;
+  // @gotags: json:"act"
+  string Act = 4;
+  // @gotags: json:"description"
+  string Description = 5;
+}

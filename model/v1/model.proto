@@ -1,0 +1,152 @@
+syntax = "proto3";
+
+option go_package = "github.com/Yostardev/cmdb-sdk/model/v1;model";
+
+package model;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+import "cmdb-sdk/general/paginate.proto";
+import "cmdb-sdk/general/request_id.proto";
+import "cmdb-sdk/general/primary_key.proto";
+import "model/v1/attribute.proto";
+
+service ModelService {
+  rpc All (ModelAllRequest) returns (ModelAllResponse) {}
+  rpc List (ModelListRequest) returns (ModelListResponse) {}
+  rpc Get (ModelGetRequest) returns (ModelResponse) {}
+  rpc GetByName (ModelGetByNameRequest) returns (ModelResponse) {}
+  rpc Create (ModelCreateRequest) returns (google.protobuf.Empty) {}
+  rpc Update (ModelUpdateRequest) returns (google.protobuf.Empty) {}
+  rpc Delete (ModelDeleteRequest) returns (google.protobuf.Empty) {}
+}
+
+message ModelAllSearchOption{
+  // @gotags: json:"model_group_id" form:"model_group_id"
+  int64 ModelGroupID = 1;
+
+}
+
+message ModelAllRequest {
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 1;
+  // @gotags: validate:"required"
+  ModelAllSearchOption Option = 2;
+}
+
+message ModelListSearchOption{
+  // @gotags: json:"name" form:"name"
+  string Name = 1;
+  // @gotags: json:"cn_name" form:"cn_name"
+  string CnName = 2;
+  // @gotags: json:"model_group_id" form:"model_group_id"
+  int64 ModelGroupID = 3;
+}
+
+message ModelListRequest{
+  // @gotags: validate:"required"
+  general.PaginateQuery PaginateQuery = 1;
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 2;
+  // @gotags: validate:"required"
+  ModelListSearchOption Option = 3;
+}
+
+message ModelGetRequest{
+  // @gotags: validate:"required"
+  general.PrimaryKey PrimaryKey = 1;
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 2;
+}
+
+message ModelGetByNameOption{
+  string Name = 1;
+}
+
+message ModelGetByNameRequest{
+  // @gotags: validate:"required"
+  ModelGetByNameOption option = 1;
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 2;
+}
+
+message ModelCreateOption{
+  // @gotags: json:"name" form:"name" validate:"required" binding:"required,model"
+  string Name = 1;
+  // @gotags: json:"cn_name" form:"cn_name" validate:"required" binding:"required"
+  string CnName = 2;
+  // @gotags: json:"show_in_resource_menu"
+  bool ShowInResourceMenu = 3;
+  // @gotags: json:"icon"
+  string Icon = 4;
+  // @gotags: json:"model_group_id" form:"model_group_id" validate:"required" binding:"required"
+  int64 ModelGroupID = 5;
+}
+
+message ModelCreateRequest{
+  // @gotags: validate:"required"
+  ModelCreateOption Option = 1;
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 2;
+}
+
+message ModelUpdateOption{
+  // @gotags: json:"cn_name" form:"cn_name" validate:"required" binding:"required"
+  string CnName = 1;
+  // @gotags: json:"icon"
+  string Icon = 2;
+  // @gotags: json:"show_in_resource_menu"
+  bool ShowInResourceMenu = 3;
+  // @gotags: json:"model_group_id" form:"model_group_id" validate:"required" binding:"required"
+  int64 ModelGroupID = 4;
+}
+
+message ModelUpdateRequest{
+  // @gotags: validate:"required"
+  general.PrimaryKey PrimaryKey = 1;
+  // @gotags: validate:"required"
+  ModelUpdateOption Option = 2;
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 3;
+}
+
+message ModelDeleteRequest{
+  // @gotags: validate:"required"
+  general.PrimaryKey PrimaryKey = 1;
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 2;
+}
+
+message ModelAllResponse {
+  // @gotags: json:"items"
+  repeated ModelResponse Items = 1;
+}
+
+message ModelListResponse {
+  // @gotags: json:"paginate"
+  general.PaginateInfo Paginate = 1;
+  // @gotags: json:"items"
+  repeated ModelResponse Items = 2;
+}
+
+message ModelResponse {
+  // @gotags: json:"id"
+  int64 ID = 1;
+  // @gotags: json:"created_at"
+  google.protobuf.Timestamp CreatedAt = 2;
+  // @gotags: json:"updated_at"
+  google.protobuf.Timestamp UpdatedAt = 3;
+  // @gotags: json:"name"
+  string Name = 4;
+  // @gotags: json:"cn_name"
+  string CnName = 5;
+  // @gotags: json:"show_in_resource_menu"
+  bool ShowInResourceMenu = 6;
+  // @gotags: json:"icon"
+  string Icon = 7;
+  // @gotags: json:"model_group_id"
+  int64 ModelGroupID = 8;
+  // @gotags: json:"attributes"
+  repeated AttributeResponse Attributes = 9;
+}

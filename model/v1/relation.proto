@@ -1,0 +1,142 @@
+syntax = "proto3";
+
+option go_package = "github.com/Yostardev/cmdb-sdk/model/v1;model";
+
+package model;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+import "cmdb-sdk/general/paginate.proto";
+import "cmdb-sdk/general/request_id.proto";
+import "cmdb-sdk/general/primary_key.proto";
+
+service RelationService {
+  rpc All (RelationAllRequest) returns (RelationAllResponse) {}
+  rpc AllByModelName (RelationAllByModelNameRequest) returns (RelationAllResponse) {}
+  rpc AllByRelationModelName (RelationAllByModelNameRequest) returns (RelationAllResponse) {}
+  rpc List (RelationListRequest) returns (RelationListResponse) {}
+  rpc Get (RelationGetRequest) returns (RelationResponse) {}
+  rpc Create (RelationCreateRequest) returns (google.protobuf.Empty) {}
+  rpc Update (RelationUpdateRequest) returns (google.protobuf.Empty) {}
+  rpc Delete (RelationDeleteRequest) returns (google.protobuf.Empty) {}
+}
+
+message RelationAllByModelNameOption{
+  string ModelName = 1;
+}
+
+message RelationAllByModelNameRequest{
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 1;
+  // @gotags: validate:"required"
+  RelationAllByModelNameOption Option = 2;
+}
+
+message RelationAllRequest {
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 1;
+}
+
+message RelationListSearchOption{
+  // @gotags: json:"name" form:"name"
+  string Name = 1;
+  // @gotags: json:"cn_name" form:"cn_name"
+  string CnName = 2;
+}
+
+message RelationListRequest{
+  // @gotags: validate:"required"
+  general.PaginateQuery PaginateQuery = 1;
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 2;
+  // @gotags: validate:"required"
+  RelationListSearchOption Option = 3;
+}
+
+message RelationGetRequest{
+  // @gotags: validate:"required"
+  general.PrimaryKey PrimaryKey = 1;
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 2;
+}
+
+message RelationCreateOption{
+  // @gotags: json:"name" validate:"required" binding:"required,relation"
+  string Name = 1;
+  // @gotags: json:"cn_name" validate:"required" binding:"required"
+  string CnName = 2;
+  // @gotags: json:"model_name" validate:"required" binding:"required"
+  string ModelName = 3;
+  // @gotags: json:"relation_model_name" validate:"required" binding:"required"
+  string RelationModelName = 4;
+  // @gotags: json:"type" validate:"required" binding:"required"
+  string Type = 5;
+}
+
+message RelationCreateRequest{
+  // @gotags: validate:"required"
+  RelationCreateOption Option = 1;
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 2;
+}
+
+message RelationUpdateOption{
+  // @gotags: json:"name" validate:"required" binding:"required,relation"
+  string Name = 1;
+  // @gotags: json:"cn_name" validate:"required" binding:"required"
+  string CnName = 2;
+  // @gotags: json:"model_name" validate:"required" binding:"required"
+  string ModelName = 3;
+  // @gotags: json:"relation_model_name" validate:"required" binding:"required"
+  string RelationModelName = 4;
+  // @gotags: json:"type" validate:"required" binding:"required"
+  string Type = 5;
+}
+
+message RelationUpdateRequest{
+  // @gotags: validate:"required"
+  general.PrimaryKey PrimaryKey = 1;
+  // @gotags: validate:"required"
+  RelationUpdateOption Option = 2;
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 3;
+}
+
+message RelationDeleteRequest{
+  // @gotags: validate:"required"
+  general.PrimaryKey PrimaryKey = 1;
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 2;
+}
+
+message RelationAllResponse {
+  // @gotags: json:"items"
+  repeated RelationResponse Items = 1;
+}
+
+message RelationListResponse {
+  // @gotags: json:"paginate"
+  general.PaginateInfo Paginate = 1;
+  // @gotags: json:"items"
+  repeated RelationResponse Items = 2;
+}
+
+message RelationResponse {
+  // @gotags: json:"id"
+  int64 ID = 1;
+  // @gotags: json:"created_at"
+  google.protobuf.Timestamp CreatedAt = 2;
+  // @gotags: json:"updated_at"
+  google.protobuf.Timestamp UpdatedAt = 3;
+  // @gotags: json:"name"
+  string Name = 4;
+  // @gotags: json:"cn_name"
+  string CnName = 5;
+  // @gotags: json:"model_name"
+  string ModelName = 6;
+  // @gotags: json:"relation_model_name"
+  string RelationModelName = 7;
+  // @gotags: json:"type"
+  string Type = 8;
+}

@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+option go_package = "github.com/Yostardev/cmdb-sdk/general";
+
+package general;
+
+message PrimaryKey {
+  // @gotags: json:"id" uri:"id" validate:"required" binding:"required" describe:"对象ID"
+  int64 ID = 1;
+}

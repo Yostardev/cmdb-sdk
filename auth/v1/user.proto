@@ -1,0 +1,170 @@
+syntax = "proto3";
+
+option go_package = "github.com/Yostardev/cmdb-sdk/auth/v1;auth";
+
+package auth;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+import "cmdb-sdk/general/paginate.proto";
+import "cmdb-sdk/general/request_id.proto";
+import "cmdb-sdk/general/primary_key.proto";
+import "auth/v1/common.proto";
+
+service UserService {
+  rpc List (UserListRequest) returns (UserListResponse) {}
+  rpc Get (UserGetRequest) returns (UserResponse) {}
+  rpc GetSelf (UserGetSelfRequest) returns (UserResponse) {}
+  rpc All (UserAllRequest) returns (UserAllResponse) {}
+  rpc UpdateUserGroups (UpdateUserGroupRequest) returns (google.protobuf.Empty) {}
+  rpc UpdateUserRoles (UpdateUserRoleRequest) returns (google.protobuf.Empty) {}
+  rpc LoginByLDAP (LoginByLDAPRequest) returns (LoginResponse) {}
+  rpc Sync(SyncUserRequest) returns (google.protobuf.Empty) {}
+  rpc Ban(UserBanRequest) returns (google.protobuf.Empty) {}
+}
+
+message UserGetSelfRequest{
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 1;
+  // @gotags: validate:"required"
+  UserGetSelfOption Option = 2;
+}
+
+message UserGetSelfOption {
+  // @gotags: json:"token" validate:"required" binding:"required"
+  string Token = 1;
+}
+
+message UserBanRequest{
+  // @gotags: validate:"required"
+  general.PrimaryKey PrimaryKey = 1;
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 2;
+}
+
+message SyncUserRequest {
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 1;
+}
+
+message LoginByLDAPRequest{
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 1;
+  // @gotags: validate:"required"
+  LoginByLDAPOption Option = 2;
+}
+
+message LoginByLDAPOption {
+  // @gotags: json:"username" validate:"required" binding:"required"
+  string Username = 1;
+  // @gotags: json:"password" validate:"required" binding:"required"
+  string Password = 2;
+}
+
+message LoginResponse{
+  // @gotags: json:"token"
+  string Token = 1;
+  // @gotags: json:"user_info"
+  UserResponse UserInfo = 2;
+}
+
+message UserAllRequest {
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 1;
+}
+
+message UserAllResponse {
+  // @gotags: json:"items"
+  repeated UserResponse Items = 1;
+}
+
+message UserListResponse {
+  // @gotags: json:"paginate"
+  general.PaginateInfo Paginate = 1;
+  // @gotags: json:"items"
+  repeated UserResponse Items = 2;
+}
+
+message UserResponse {
+  // @gotags: json:"id"
+  int64 ID = 1;
+  // @gotags: json:"created_at"
+  google.protobuf.Timestamp CreatedAt = 2;
+  // @gotags: json:"updated_at"
+  google.protobuf.Timestamp UpdatedAt = 3;
+  // @gotags: json:"name"
+  string Name = 4;
+  // @gotags: json:"ldap_account"
+  string LdapAccount = 5;
+  // @gotags: json:"mail"
+  string Mail = 6;
+  // @gotags: json:"branch"
+  string Branch = 7;
+  // @gotags: json:"group_ids"
+  repeated int64 GroupIDs = 8;
+  // @gotags: json:"groups"
+  repeated UserGroupResponse Groups = 9;
+  // @gotags: json:"role_ids"
+  repeated int64 RoleIDs = 10;
+  // @gotags: json:"roles"
+  repeated GroupRoleResponse Roles = 11;
+  // @gotags: json:"permission_ids"
+  repeated int64 PermissionIDs = 12;
+  // @gotags: json:"permissions"
+  repeated RolePermissionResponse Permissions = 13;
+}
+
+message UserGetRequest{
+  // @gotags: validate:"required"
+  general.PrimaryKey PrimaryKey = 1;
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 2;
+}
+
+message UserListSearchOption{
+  // @gotags: json:"name" form:"name"
+  string Name = 1;
+  // @gotags: json:"ldap_account" form:"ldap_account"
+  string LdapAccount = 5;
+  // @gotags: json:"mail" form:"mail"
+  string Mail = 9;
+}
+
+message UserListRequest{
+  // @gotags: validate:"required"
+  general.PaginateQuery PaginateQuery = 1;
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 2;
+  // @gotags: validate:"required"
+  UserListSearchOption Option = 3;
+}
+
+message UserGroupOption {
+  // @gotags: json:"user_id"
+  int64 UserID = 1;
+  // @gotags: json:"group_id_list"
+  repeated int64 GroupIDList = 2;
+}
+
+message UpdateUserGroupRequest{
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 1;
+  // @gotags: validate:"required"
+  UserGroupOption  Option = 2;
+}
+
+message UserRoleOption {
+  // @gotags: json:"user_id"
+  int64 UserID = 1;
+  // @gotags: json:"role_id_list"
+  repeated int64 RoleIDList = 2;
+}
+
+
+message UpdateUserRoleRequest{
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 1;
+  // @gotags: validate:"required"
+  UserRoleOption  Option = 2;
+}

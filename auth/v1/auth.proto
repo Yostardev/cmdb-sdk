@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+option go_package = "github.com/Yostardev/cmdb-sdk/auth/v1;auth";
+
+package auth;
+
+import "cmdb-sdk/general/request_id.proto";
+
+
+service AuthService {
+  rpc CheckAuth (CheckAuthRequest) returns (CheckAuthResponse) {}
+}
+
+message CheckAuthRequest {
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 1;
+  // @gotags: validate:"required"
+  CheckAuthOption Option = 2;
+}
+
+message CheckAuthOption {
+  string Token = 1;
+  // @gotags: json:"obj" validate:"required" binding:"required"
+  string Obj = 2;
+  // @gotags: json:"act" validate:"required" binding:"required"
+  string Act = 3;
+}
+
+message CheckAuthResponse {
+  // @gotags: json:"has_auth"
+  bool HasAuth = 1;
+}

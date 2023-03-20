@@ -1,6 +1,6 @@
 module github.com/Yostardev/cmdb-sdk
 
-go 1.20
+go 1.19
 
 require (
 	github.com/Yostardev/json v1.0.1

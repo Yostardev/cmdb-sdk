@@ -25,8 +25,8 @@ type RequestID struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// @gotags: request_id:"id"
-	ID string `protobuf:"bytes,1,opt,name=ID,proto3" json:"ID,omitempty" request_id:"id"` // 请求ID
+	// @gotags: log_field:"request_id"
+	ID string `protobuf:"bytes,1,opt,name=ID,proto3" json:"ID,omitempty" log_field:"request_id"` // 请求ID
 }
 
 func (x *RequestID) Reset() {

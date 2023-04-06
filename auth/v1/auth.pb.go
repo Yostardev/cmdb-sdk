@@ -83,11 +83,12 @@ type CheckAuthOption struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Token string `protobuf:"bytes,1,opt,name=Token,proto3" json:"Token,omitempty"`
-	// @gotags: json:"obj" validate:"required" binding:"required"
-	Obj string `protobuf:"bytes,2,opt,name=Obj,proto3" json:"obj" validate:"required" binding:"required"`
-	// @gotags: json:"act" validate:"required" binding:"required"
-	Act string `protobuf:"bytes,3,opt,name=Act,proto3" json:"act" validate:"required" binding:"required"`
+	// @gotags: log_field:"opt.token"
+	Token string `protobuf:"bytes,1,opt,name=Token,proto3" json:"Token,omitempty" log_field:"opt.token"`
+	// @gotags: json:"obj" validate:"required" binding:"required" log_field:"opt.obj"
+	Obj string `protobuf:"bytes,2,opt,name=Obj,proto3" json:"obj" validate:"required" binding:"required" log_field:"opt.obj"`
+	// @gotags: json:"act" validate:"required" binding:"required" log_field:"opt.act"
+	Act string `protobuf:"bytes,3,opt,name=Act,proto3" json:"act" validate:"required" binding:"required" log_field:"opt.act"`
 }
 
 func (x *CheckAuthOption) Reset() {

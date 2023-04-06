@@ -5,7 +5,9 @@ option go_package = "github.com/Yostardev/cmdb-sdk/general";
 package general;
 
 message PaginateQuery {
+  // @gotags: log_field:"paginate.page"
   int64 Page = 1; // 页码
+  // @gotags: log_field:"paginate.page_size"
   int64 PageSize = 2; // 每页大小
 }
 

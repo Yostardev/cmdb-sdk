@@ -5,6 +5,6 @@ option go_package = "github.com/Yostardev/cmdb-sdk/general";
 package general;
 
 message PrimaryKey {
-  // @gotags: json:"id" uri:"id" validate:"required" binding:"required" describe:"对象ID"
+  // @gotags: json:"id" uri:"id" validate:"required" binding:"required" describe:"对象ID" log_field:"primary_key.id"
   int64 ID = 1;
 }

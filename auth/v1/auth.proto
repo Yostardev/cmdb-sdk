@@ -14,7 +14,7 @@ service AuthService {
 message CheckAuthRequest {
   // @gotags: validate:"required"
   general.RequestID RequestID = 1;
-  // @gotags: validate:"required" log_field:"opt"
+  // @gotags: validate:"required"
   CheckAuthOption Option = 2;
 }
 

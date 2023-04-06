@@ -28,8 +28,8 @@ type CheckAuthRequest struct {
 
 	// @gotags: validate:"required"
 	RequestID *general.RequestID `protobuf:"bytes,1,opt,name=RequestID,proto3" json:"RequestID,omitempty" validate:"required"`
-	// @gotags: validate:"required" log_field:"opt"
-	Option *CheckAuthOption `protobuf:"bytes,2,opt,name=Option,proto3" json:"Option,omitempty" validate:"required" log_field:"opt"`
+	// @gotags: validate:"required"
+	Option *CheckAuthOption `protobuf:"bytes,2,opt,name=Option,proto3" json:"Option,omitempty" validate:"required"`
 }
 
 func (x *CheckAuthRequest) Reset() {

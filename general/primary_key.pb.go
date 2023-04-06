@@ -25,8 +25,8 @@ type PrimaryKey struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// @gotags: json:"id" uri:"id" validate:"required" binding:"required" describe:"对象ID" log_field:"primary_key.id"
-	ID int64 `protobuf:"varint,1,opt,name=ID,proto3" json:"id" uri:"id" validate:"required" binding:"required" describe:"对象ID" log_field:"primary_key.id"`
+	// @gotags: json:"id" uri:"id" validate:"required" binding:"required" describe:"对象ID"
+	ID int64 `protobuf:"varint,1,opt,name=ID,proto3" json:"id" uri:"id" validate:"required" binding:"required" describe:"对象ID"`
 }
 
 func (x *PrimaryKey) Reset() {

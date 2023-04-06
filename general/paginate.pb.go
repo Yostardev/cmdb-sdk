@@ -25,10 +25,8 @@ type PaginateQuery struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// @gotags: log_field:"paginate.page"
-	Page int64 `protobuf:"varint,1,opt,name=Page,proto3" json:"Page,omitempty" log_field:"paginate.page"` // 页码
-	// @gotags: log_field:"paginate.page_size"
-	PageSize int64 `protobuf:"varint,2,opt,name=PageSize,proto3" json:"PageSize,omitempty" log_field:"paginate.page_size"` // 每页大小
+	Page     int64 `protobuf:"varint,1,opt,name=Page,proto3" json:"Page,omitempty"`         // 页码
+	PageSize int64 `protobuf:"varint,2,opt,name=PageSize,proto3" json:"PageSize,omitempty"` // 每页大小
 }
 
 func (x *PaginateQuery) Reset() {

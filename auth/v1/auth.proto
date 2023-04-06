@@ -19,11 +19,10 @@ message CheckAuthRequest {
 }
 
 message CheckAuthOption {
-  // @gotags: log_field:"opt.token"
   string Token = 1;
-  // @gotags: json:"obj" validate:"required" binding:"required" log_field:"opt.obj"
+  // @gotags: json:"obj" validate:"required" binding:"required"
   string Obj = 2;
-  // @gotags: json:"act" validate:"required" binding:"required" log_field:"opt.act"
+  // @gotags: json:"act" validate:"required" binding:"required"
   string Act = 3;
 }
 

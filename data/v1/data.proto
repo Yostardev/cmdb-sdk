@@ -20,6 +20,7 @@ service DataService {
   rpc InsertDocument (InsertDocumentRequest) returns (DocumentResponse) {}
   rpc UpdateDocument (UpdateDocumentRequest) returns (DocumentResponse) {}
   rpc DeleteDocument (DeleteDocumentRequest) returns (google.protobuf.Empty) {}
+  rpc BatchDeleteDocument (BatchDeleteDocumentRequest) returns (google.protobuf.Empty) {}
   rpc GetTreeNodes (GetTreeNodesRequest) returns (GetTreeNodesResponse) {}
   rpc GetResourceCount (GetResourceCountRequest) returns (ResourceCountResponse) {}
   rpc Distinct (DistinctRequest) returns (DistinctResponse) {}
@@ -209,6 +210,18 @@ message DeleteDocumentRequest{
   general.RequestID RequestID = 1;
   // @gotags: validate:"required"
   DeleteDocumentOption Option = 2;
+}
+
+message BatchDeleteDocumentOption{
+  string CollectionName = 1;
+  repeated string IDs = 2;
+}
+
+message BatchDeleteDocumentRequest{
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 1;
+  // @gotags: validate:"required"
+  BatchDeleteDocumentOption Option = 2;
 }
 
 message GetDocumentResponse{

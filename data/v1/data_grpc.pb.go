@@ -20,20 +20,21 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	DataService_CreateCollection_FullMethodName  = "/data.DataService/CreateCollection"
-	DataService_DeleteCollection_FullMethodName  = "/data.DataService/DeleteCollection"
-	DataService_CreateUniqueIndex_FullMethodName = "/data.DataService/CreateUniqueIndex"
-	DataService_DeleteUniqueIndex_FullMethodName = "/data.DataService/DeleteUniqueIndex"
-	DataService_ListDocument_FullMethodName      = "/data.DataService/ListDocument"
-	DataService_AllDocument_FullMethodName       = "/data.DataService/AllDocument"
-	DataService_GetDocument_FullMethodName       = "/data.DataService/GetDocument"
-	DataService_InsertDocument_FullMethodName    = "/data.DataService/InsertDocument"
-	DataService_UpdateDocument_FullMethodName    = "/data.DataService/UpdateDocument"
-	DataService_DeleteDocument_FullMethodName    = "/data.DataService/DeleteDocument"
-	DataService_GetTreeNodes_FullMethodName      = "/data.DataService/GetTreeNodes"
-	DataService_GetResourceCount_FullMethodName  = "/data.DataService/GetResourceCount"
-	DataService_Distinct_FullMethodName          = "/data.DataService/Distinct"
-	DataService_Relation_FullMethodName          = "/data.DataService/Relation"
+	DataService_CreateCollection_FullMethodName    = "/data.DataService/CreateCollection"
+	DataService_DeleteCollection_FullMethodName    = "/data.DataService/DeleteCollection"
+	DataService_CreateUniqueIndex_FullMethodName   = "/data.DataService/CreateUniqueIndex"
+	DataService_DeleteUniqueIndex_FullMethodName   = "/data.DataService/DeleteUniqueIndex"
+	DataService_ListDocument_FullMethodName        = "/data.DataService/ListDocument"
+	DataService_AllDocument_FullMethodName         = "/data.DataService/AllDocument"
+	DataService_GetDocument_FullMethodName         = "/data.DataService/GetDocument"
+	DataService_InsertDocument_FullMethodName      = "/data.DataService/InsertDocument"
+	DataService_UpdateDocument_FullMethodName      = "/data.DataService/UpdateDocument"
+	DataService_DeleteDocument_FullMethodName      = "/data.DataService/DeleteDocument"
+	DataService_BatchDeleteDocument_FullMethodName = "/data.DataService/BatchDeleteDocument"
+	DataService_GetTreeNodes_FullMethodName        = "/data.DataService/GetTreeNodes"
+	DataService_GetResourceCount_FullMethodName    = "/data.DataService/GetResourceCount"
+	DataService_Distinct_FullMethodName            = "/data.DataService/Distinct"
+	DataService_Relation_FullMethodName            = "/data.DataService/Relation"
 )
 
 // DataServiceClient is the client API for DataService service.
@@ -50,6 +51,7 @@ type DataServiceClient interface {
 	InsertDocument(ctx context.Context, in *InsertDocumentRequest, opts ...grpc.CallOption) (*DocumentResponse, error)
 	UpdateDocument(ctx context.Context, in *UpdateDocumentRequest, opts ...grpc.CallOption) (*DocumentResponse, error)
 	DeleteDocument(ctx context.Context, in *DeleteDocumentRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	BatchDeleteDocument(ctx context.Context, in *BatchDeleteDocumentRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	GetTreeNodes(ctx context.Context, in *GetTreeNodesRequest, opts ...grpc.CallOption) (*GetTreeNodesResponse, error)
 	GetResourceCount(ctx context.Context, in *GetResourceCountRequest, opts ...grpc.CallOption) (*ResourceCountResponse, error)
 	Distinct(ctx context.Context, in *DistinctRequest, opts ...grpc.CallOption) (*DistinctResponse, error)
@@ -154,6 +156,15 @@ func (c *dataServiceClient) DeleteDocument(ctx context.Context, in *DeleteDocume
 	return out, nil
 }
 
+func (c *dataServiceClient) BatchDeleteDocument(ctx context.Context, in *BatchDeleteDocumentRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, DataService_BatchDeleteDocument_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *dataServiceClient) GetTreeNodes(ctx context.Context, in *GetTreeNodesRequest, opts ...grpc.CallOption) (*GetTreeNodesResponse, error) {
 	out := new(GetTreeNodesResponse)
 	err := c.cc.Invoke(ctx, DataService_GetTreeNodes_FullMethodName, in, out, opts...)
@@ -204,6 +215,7 @@ type DataServiceServer interface {
 	InsertDocument(context.Context, *InsertDocumentRequest) (*DocumentResponse, error)
 	UpdateDocument(context.Context, *UpdateDocumentRequest) (*DocumentResponse, error)
 	DeleteDocument(context.Context, *DeleteDocumentRequest) (*emptypb.Empty, error)
+	BatchDeleteDocument(context.Context, *BatchDeleteDocumentRequest) (*emptypb.Empty, error)
 	GetTreeNodes(context.Context, *GetTreeNodesRequest) (*GetTreeNodesResponse, error)
 	GetResourceCount(context.Context, *GetResourceCountRequest) (*ResourceCountResponse, error)
 	Distinct(context.Context, *DistinctRequest) (*DistinctResponse, error)
@@ -244,6 +256,9 @@ func (UnimplementedDataServiceServer) UpdateDocument(context.Context, *UpdateDoc
 }
 func (UnimplementedDataServiceServer) DeleteDocument(context.Context, *DeleteDocumentRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteDocument not implemented")
+}
+func (UnimplementedDataServiceServer) BatchDeleteDocument(context.Context, *BatchDeleteDocumentRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BatchDeleteDocument not implemented")
 }
 func (UnimplementedDataServiceServer) GetTreeNodes(context.Context, *GetTreeNodesRequest) (*GetTreeNodesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTreeNodes not implemented")
@@ -450,6 +465,24 @@ func _DataService_DeleteDocument_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _DataService_BatchDeleteDocument_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BatchDeleteDocumentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DataServiceServer).BatchDeleteDocument(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DataService_BatchDeleteDocument_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DataServiceServer).BatchDeleteDocument(ctx, req.(*BatchDeleteDocumentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _DataService_GetTreeNodes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetTreeNodesRequest)
 	if err := dec(in); err != nil {
@@ -568,6 +601,10 @@ var DataService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteDocument",
 			Handler:    _DataService_DeleteDocument_Handler,
+		},
+		{
+			MethodName: "BatchDeleteDocument",
+			Handler:    _DataService_BatchDeleteDocument_Handler,
 		},
 		{
 			MethodName: "GetTreeNodes",

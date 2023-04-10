@@ -20,6 +20,7 @@ service UserService {
   rpc UpdateUserGroups (UpdateUserGroupRequest) returns (google.protobuf.Empty) {}
   rpc UpdateUserRoles (UpdateUserRoleRequest) returns (google.protobuf.Empty) {}
   rpc LoginByLDAP (LoginByLDAPRequest) returns (LoginResponse) {}
+  rpc LoginByIdaas (LoginByIdaasRequest) returns (LoginResponse) {}
   rpc Sync(SyncUserRequest) returns (google.protobuf.Empty) {}
   rpc Ban(UserBanRequest) returns (google.protobuf.Empty) {}
 }
@@ -53,6 +54,18 @@ message LoginByLDAPRequest{
   general.RequestID RequestID = 1;
   // @gotags: validate:"required"
   LoginByLDAPOption Option = 2;
+}
+
+message LoginByIdaasRequest{
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 1;
+  // @gotags: validate:"required"
+  LoginByIdaasOption Option = 2;
+}
+
+message LoginByIdaasOption{
+  // @gotags: json:"SAMLResponse" form:"SAMLResponse" binding:"required"
+  string SAMLResponse = 1;
 }
 
 message LoginByLDAPOption {

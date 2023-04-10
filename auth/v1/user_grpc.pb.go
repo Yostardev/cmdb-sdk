@@ -27,6 +27,7 @@ const (
 	UserService_UpdateUserGroups_FullMethodName = "/auth.UserService/UpdateUserGroups"
 	UserService_UpdateUserRoles_FullMethodName  = "/auth.UserService/UpdateUserRoles"
 	UserService_LoginByLDAP_FullMethodName      = "/auth.UserService/LoginByLDAP"
+	UserService_LoginByIdaas_FullMethodName     = "/auth.UserService/LoginByIdaas"
 	UserService_Sync_FullMethodName             = "/auth.UserService/Sync"
 	UserService_Ban_FullMethodName              = "/auth.UserService/Ban"
 )
@@ -42,6 +43,7 @@ type UserServiceClient interface {
 	UpdateUserGroups(ctx context.Context, in *UpdateUserGroupRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	UpdateUserRoles(ctx context.Context, in *UpdateUserRoleRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	LoginByLDAP(ctx context.Context, in *LoginByLDAPRequest, opts ...grpc.CallOption) (*LoginResponse, error)
+	LoginByIdaas(ctx context.Context, in *LoginByIdaasRequest, opts ...grpc.CallOption) (*LoginResponse, error)
 	Sync(ctx context.Context, in *SyncUserRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	Ban(ctx context.Context, in *UserBanRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
@@ -117,6 +119,15 @@ func (c *userServiceClient) LoginByLDAP(ctx context.Context, in *LoginByLDAPRequ
 	return out, nil
 }
 
+func (c *userServiceClient) LoginByIdaas(ctx context.Context, in *LoginByIdaasRequest, opts ...grpc.CallOption) (*LoginResponse, error) {
+	out := new(LoginResponse)
+	err := c.cc.Invoke(ctx, UserService_LoginByIdaas_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *userServiceClient) Sync(ctx context.Context, in *SyncUserRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, UserService_Sync_FullMethodName, in, out, opts...)
@@ -146,6 +157,7 @@ type UserServiceServer interface {
 	UpdateUserGroups(context.Context, *UpdateUserGroupRequest) (*emptypb.Empty, error)
 	UpdateUserRoles(context.Context, *UpdateUserRoleRequest) (*emptypb.Empty, error)
 	LoginByLDAP(context.Context, *LoginByLDAPRequest) (*LoginResponse, error)
+	LoginByIdaas(context.Context, *LoginByIdaasRequest) (*LoginResponse, error)
 	Sync(context.Context, *SyncUserRequest) (*emptypb.Empty, error)
 	Ban(context.Context, *UserBanRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedUserServiceServer()
@@ -175,6 +187,9 @@ func (UnimplementedUserServiceServer) UpdateUserRoles(context.Context, *UpdateUs
 }
 func (UnimplementedUserServiceServer) LoginByLDAP(context.Context, *LoginByLDAPRequest) (*LoginResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method LoginByLDAP not implemented")
+}
+func (UnimplementedUserServiceServer) LoginByIdaas(context.Context, *LoginByIdaasRequest) (*LoginResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method LoginByIdaas not implemented")
 }
 func (UnimplementedUserServiceServer) Sync(context.Context, *SyncUserRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Sync not implemented")
@@ -321,6 +336,24 @@ func _UserService_LoginByLDAP_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserService_LoginByIdaas_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LoginByIdaasRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).LoginByIdaas(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_LoginByIdaas_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).LoginByIdaas(ctx, req.(*LoginByIdaasRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _UserService_Sync_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(SyncUserRequest)
 	if err := dec(in); err != nil {
@@ -391,6 +424,10 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "LoginByLDAP",
 			Handler:    _UserService_LoginByLDAP_Handler,
+		},
+		{
+			MethodName: "LoginByIdaas",
+			Handler:    _UserService_LoginByIdaas_Handler,
 		},
 		{
 			MethodName: "Sync",

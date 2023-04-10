@@ -8,6 +8,7 @@ import "google/protobuf/empty.proto";
 
 import "cmdb-sdk/general/request_id.proto";
 import "cmdb-sdk/general/paginate.proto";
+import "cmdb-sdk/general/token.proto";
 
 service DataService {
   rpc CreateCollection (CollectionRequest) returns (google.protobuf.Empty) {}
@@ -160,7 +161,9 @@ message ListDocumentRequest{
   // @gotags: validate:"required"
   general.RequestID RequestID = 2;
   // @gotags: validate:"required"
-  ListDocumentOption Option = 3;
+  general.Token Token = 3;
+  // @gotags: validate:"required"
+  ListDocumentOption Option = 4;
 }
 
 message GetDocumentOption{
@@ -172,7 +175,9 @@ message GetDocumentRequest{
   // @gotags: validate:"required"
   general.RequestID RequestID = 1;
   // @gotags: validate:"required"
-  GetDocumentOption Option = 2;
+  general.Token Token = 2;
+  // @gotags: validate:"required"
+  GetDocumentOption Option = 3;
 }
 
 message InsertDocumentOption{
@@ -184,7 +189,9 @@ message InsertDocumentRequest{
   // @gotags: validate:"required"
   general.RequestID RequestID = 1;
   // @gotags: validate:"required"
-  InsertDocumentOption Option = 2;
+  general.Token Token = 2;
+  // @gotags: validate:"required"
+  InsertDocumentOption Option = 3;
 }
 
 message UpdateDocumentOption{
@@ -197,7 +204,9 @@ message UpdateDocumentRequest{
   // @gotags: validate:"required"
   general.RequestID RequestID = 1;
   // @gotags: validate:"required"
-  UpdateDocumentOption Option = 2;
+  general.Token Token = 2;
+  // @gotags: validate:"required"
+  UpdateDocumentOption Option = 3;
 }
 
 message DeleteDocumentOption{

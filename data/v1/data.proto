@@ -37,7 +37,9 @@ message AllDocumentRequest{
   // @gotags: validate:"required"
   general.RequestID RequestID = 1;
   // @gotags: validate:"required"
-  AllDocumentOption Option = 2;
+  general.Token Token = 2;
+  // @gotags: validate:"required"
+  AllDocumentOption Option = 3;
 }
 
 message RelationOption{

@@ -220,7 +220,9 @@ message DeleteDocumentRequest{
   // @gotags: validate:"required"
   general.RequestID RequestID = 1;
   // @gotags: validate:"required"
-  DeleteDocumentOption Option = 2;
+  general.Token Token = 2;
+  // @gotags: validate:"required"
+  DeleteDocumentOption Option = 3;
 }
 
 message BatchDeleteDocumentOption{
@@ -232,7 +234,9 @@ message BatchDeleteDocumentRequest{
   // @gotags: validate:"required"
   general.RequestID RequestID = 1;
   // @gotags: validate:"required"
-  BatchDeleteDocumentOption Option = 2;
+  general.Token Token = 2;
+  // @gotags: validate:"required"
+  BatchDeleteDocumentOption Option = 3;
 }
 
 message GetDocumentResponse{

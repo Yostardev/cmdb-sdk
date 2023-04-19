@@ -19,8 +19,8 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Health_Check_FullMethodName = "/health.Health/Check"
-	Health_Watch_FullMethodName = "/health.Health/Watch"
+	Health_Check_FullMethodName = "/grpc.health.v1.Health/Check"
+	Health_Watch_FullMethodName = "/grpc.health.v1.Health/Watch"
 )
 
 // HealthClient is the client API for Health service.
@@ -155,7 +155,7 @@ func (x *healthWatchServer) Send(m *HealthCheckResponse) error {
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var Health_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "health.Health",
+	ServiceName: "grpc.health.v1.Health",
 	HandlerType: (*HealthServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

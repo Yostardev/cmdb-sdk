@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "github.com/Yostardev/cmdb-sdk/general";
+option go_package = "github.com/Yostardev/cmdb-sdk/health;health";
 
 package health;
 

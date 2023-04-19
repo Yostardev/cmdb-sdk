@@ -4,7 +4,7 @@
 // - protoc             v3.21.12
 // source: health/health.proto
 
-package general
+package health
 
 import (
 	context "context"

@@ -20,12 +20,28 @@ service DataService {
   rpc GetDocument (GetDocumentRequest) returns (GetDocumentResponse) {}
   rpc InsertDocument (InsertDocumentRequest) returns (DocumentResponse) {}
   rpc UpdateDocument (UpdateDocumentRequest) returns (DocumentResponse) {}
+  rpc UpdateDocumentByFilter (UpdateDocumentByFilterRequest) returns (DocumentResponse) {}
   rpc DeleteDocument (DeleteDocumentRequest) returns (google.protobuf.Empty) {}
   rpc BatchDeleteDocument (BatchDeleteDocumentRequest) returns (google.protobuf.Empty) {}
   rpc GetTreeNodes (GetTreeNodesRequest) returns (GetTreeNodesResponse) {}
   rpc GetResourceCount (GetResourceCountRequest) returns (ResourceCountResponse) {}
   rpc Distinct (DistinctRequest) returns (DistinctResponse) {}
   rpc Relation (RelationRequest) returns (google.protobuf.Empty) {}
+}
+
+message UpdateDocumentByFilterRequest{
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 1;
+  // @gotags: validate:"required"
+  general.Token Token = 2;
+  // @gotags: validate:"required"
+  UpdateDocumentByFilterOption Option = 3;
+}
+
+message UpdateDocumentByFilterOption{
+  string CollectionName = 1;
+  bytes Filter = 2;
+  bytes Data = 3;
 }
 
 message AllDocumentOption{

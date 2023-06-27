@@ -126,6 +126,8 @@ message UserResponse {
   repeated int64 PermissionIDs = 12;
   // @gotags: json:"permissions"
   repeated RolePermissionResponse Permissions = 13;
+  // @gotags: json:"show_password"
+  bool ShowPassword = 14;
 }
 
 message UserGetRequest{
